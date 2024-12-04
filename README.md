@@ -88,4 +88,4 @@ To simply build the project without cleaning, run:
 
 ## License
 
-This project is licensed under the MIT License.
+This project is licensed under the APACHE2.0 License.
