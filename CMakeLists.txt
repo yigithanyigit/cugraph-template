@@ -83,6 +83,8 @@ find_package(CUDAToolkit REQUIRED)
 # Explicitly find cccl
 #find_package(CCCL REQUIRED)
 
+find_package(cugraph REQUIRED)
+
 # Find RAFT
 find_package(raft REQUIRED)
 
@@ -101,14 +103,17 @@ if(CMAKE_BUILD_TYPE MATCHES Debug)
     list(APPEND CUGRAPH_CUDA_FLAGS -G -Xcompiler=-rdynamic)
 endif()
 
-# Set paths to RAPIDS installations
-set(RAPIDS_PATH "/home/yigit/miniconda3/envs/cugraph_dev")
-set(CUGRAPH_PATH "/home/yigit/cugraph/build")
-#set(MMIO_PATH "/home/yigit/cugraph/thirdparty/mmio")
+# Check conda prefix
+if(DEFINED ENV{CONDA_PREFIX})
+    set(CONDA_PREFIX $ENV{CONDA_PREFIX})
+else()
+    message(FATAL_ERROR "CONDA_PREFIX not found")
+endif()
+
+set(RAPIDS_PATH ${CONDA_PREFIX})
 set(MMIO_PATH ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/mmio)
 set(SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
 
-message(STATUS "MMIO_PATH: ${MMIO_PATH}")
 
 # Include directories
 include_directories(
@@ -116,13 +121,12 @@ include_directories(
     ${CUGRAPH_PATH}/include
     ${CUDAToolkit_INCLUDE_DIRS}
     ${CUGRAPH_PATH}/../thirdparty
-    ${MMIO_PATH}
+    ${CUGRAPH_PATH}/../thirdparty/mmio
 )
 
 # Link directories
 link_directories(
     ${RAPIDS_PATH}/lib
-    ${CUGRAPH_PATH}/lib
 )
 
 
@@ -150,7 +154,6 @@ set_target_properties(utils PROPERTIES
 target_include_directories(utils PUBLIC
     ${MMIO_PATH}
     ${SOURCE_DIR}/utils
-    ${CUGRAPH_PATH}/include
 )
 
 target_link_libraries(utils
@@ -162,7 +165,9 @@ target_link_libraries(utils
 )
 
 # Add executable
-add_executable(louvain_example src/louvain.cu)
+add_executable(louvain_example 
+  src/louvain.cpp
+)
 
 target_compile_options(louvain_example
             PRIVATE "$<$<COMPILE_LANGUAGE:CXX>:${CUGRAPH_CXX_FLAGS}>"

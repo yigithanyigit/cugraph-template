@@ -16,7 +16,7 @@ build() {
     create_dir
     enter build
     cmake ../.. -DCMAKE_EXPORT_COMPILE_COMMANDS=1
-    make
+    make -j
 }
 
 go_base() {
@@ -43,7 +43,7 @@ main() {
     if [ "$1" = "make" ]; then
         enter src
         enter build
-        make
+        make -j
     elif [ "$1" = "clean_and_build" ]; then
         clean_and_build
     else
