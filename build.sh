@@ -24,7 +24,7 @@ go_base() {
 }
 
 clean_and_build() {
-    if [ "$(pwd)" = "$(pwd)/build" ]; then
+    if [ "$(basename "$(pwd)")" = "build" ]; then
         go_base
     fi
     if [ -d build ]; then
