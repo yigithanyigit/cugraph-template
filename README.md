@@ -12,10 +12,10 @@ Ensure you have the following installed:
 ## Install Prerequisites
 
 > [!IMPORTANT]
-> If you want to use different version of CUDA or cuGraph, you have to change from .yaml file otherwise it might not be build!
-> Example:
-> Changing cuda-version 12.6 to 12.4
-> cuda-version=12.6 -> cuda-version=12.4
+> If you want to use different version of CUDA or cuGraph, you have to change from .yaml file otherwise it might not be build!<br>
+> Example:<br>
+> Changing cuda-version 12.6 to 12.4<br>
+> cuda-version=12.6 -> cuda-version=12.4<br>
 
 `conda env create --name cugraph_louvain --file <base_path_of_this_repo>/conda/environments/dependency_cuda_12_x`
 
