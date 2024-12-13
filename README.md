@@ -5,20 +5,15 @@ This project uses a build script (`build.sh`) to manage the build process. Below
 ## Prerequisites
 
 Ensure you have the following installed:
-- `cugraph_dev` envirioment
-- `cccl=2.5.0` cccl for conda envirion
+- `miniconda/anaconda`
 - `cmake`
 - `make`
 
-
 ## Install Prerequisites
 
-- Check [Build from source link](https://github.com/yigithanyigit/cugraph/blob/branch-24.12/docs/cugraph/source/installation/source_build.md) for cugraph_env
+`conda env create --name cugraph_louvain --file <base_path_of_this_repo>/conda/environments/dependency_cuda_12_x`
 
-- `conda install -c conda-forge cccl=2.5.0`
-
-You are done!
-
+`conda activate cugraph_louvain`
 
 ## Usage
 
@@ -86,6 +81,47 @@ To simply build the project without cleaning, run:
 ./build.sh make
 ```
 
-## License
+---
 
-This project is licensed under the APACHE2.0 License.
+## runner-louvain.py
+
+`runner-louvain.py` is a Python script designed to run a specified executable with input files from a given directory, process the output, and profile the execution using `nsys`.
+
+### Prerequisites
+
+- Python 3.x
+- NVIDIA Nsight Systems (`nsys`)
+
+### Usage
+
+```sh
+python runner-louvain.py <executable> <input_dir> <output_dir>
+```
+
+### Arguments
+
+- `<executable>`: The path to the executable file to be run.
+- `<input_dir>`: The directory containing the input files.
+- `<output_dir>`: The directory where the output files will be saved.
+
+### Description
+
+1. The script checks if the specified input and output directories exist.
+   - If the output directory does not exist, it will be created.
+2. It lists all files in the input directory.
+3. For each input file, the script:
+   - Runs the executable with the input file and specified parameters (`max_level`, `threshold`, `resolution`).
+   - Saves the output of the executable to a file in the output directory.
+   - Profiles the execution using `nsys` and saves the profiling report and output to the output directory.
+
+### Example
+
+```sh
+python runner.py /path/to/executable /path/to/input_dir /path/to/output_dir
+```
+
+### Notes
+
+- Ensure that the `nsys` tool is installed and available in your system's PATH.
+- Modify the `max_level`, `threshold`, and `resolution` lists in the script as needed for your specific use case.
+
