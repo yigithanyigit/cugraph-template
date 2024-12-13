@@ -52,7 +52,7 @@ def main():
                 f.write(result.stdout)
 
 
-            nsys_command = ["nsys", "profile", "--output", f"{args.output_dir}/{input_file}_{level}_{thres}_{res}_nsys_report", args.executable] + [input_path] + [str(level), str(thres), str(res)]
+            nsys_command = ["nsys", "profile", "--stats=true" ,"--output", f"{args.output_dir}/{input_file}_{level}_{thres}_{res}_nsys_report", args.executable] + [input_path] + [str(level), str(thres), str(res)]
             
             print(f"Running command: {' '.join(nsys_command)}")
             result = subprocess.run(nsys_command, capture_output=True, text=True)
