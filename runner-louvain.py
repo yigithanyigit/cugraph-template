@@ -49,7 +49,7 @@ def main():
                 
                 if result.returncode != 0:
                     print("Error: %s" % result.stderr)
-                    sys.exit(1)
+                    #sys.exit(1)
 
                 output_file  = os.path.join(args.output_dir, f"{input_file}_{level}_{thres}_{res}_mem_type:_{memory_type}.out")
                 with open(output_file, "w") as f:
@@ -68,7 +68,8 @@ def main():
                 
                 if result.returncode != 0:
                     print("Error: %s" % result.stderr)
-                    sys.exit(1)
+                    print("Continuing with the next input file")
+                    #sys.exit(1)
                 
                 # Save stdout to a file
                 output_file = os.path.join(args.output_dir, f"{input_file}_{level}_{thres}_{res}_nsys.out")
